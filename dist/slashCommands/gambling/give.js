@@ -16,7 +16,6 @@ exports.default = {
     name: "give",
     description: "Gives another user your pina coladas.",
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    testOnly: true,
     options: [
         {
             name: "user",
