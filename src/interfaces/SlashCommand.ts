@@ -1,14 +1,10 @@
-import {
-    ApplicationCommandOptionChoice,
-    ApplicationCommandOptionType,
-    PermissionResolvable
-} from "discord.js";
+import { PermissionResolvable } from "discord.js";
 import { ExecuteSlash } from "../types/ExecuteSlash";
+import { SlashCommandOptions } from "../types/SlashCommandOptions";
 
 export interface SlashCommand {
     name: string;
     description: string;
-    category: string;
     cooldown?: number;
     globalCooldown?: boolean;
     perms?: PermissionResolvable[];
@@ -17,14 +13,6 @@ export interface SlashCommand {
     someServersOnly?: boolean;
     serverOwnerOnly?: boolean;
     testOnly?: boolean;
-    options?: [
-        {
-            name: string;
-            type: ApplicationCommandOptionType;
-            description: string;
-            required: boolean;
-            choices?: ApplicationCommandOptionChoice[];
-        }
-    ];
+    options?: SlashCommandOptions[];
     execute(p: ExecuteSlash): any;
 }
