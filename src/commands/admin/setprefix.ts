@@ -1,7 +1,7 @@
 import { Command } from "../../interfaces/Command";
 import { setCooldown, getGuildInfo, CustomEmbed } from "../../utils/utils";
 
-const prefixRegExp = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{1,15}$/;
+const prefixRegExp = /^[a-zA-Z0-9!@#\$%\^\&*\)\(?+=._-]{1,15}$/;
 
 export default {
     name: "setprefix",
