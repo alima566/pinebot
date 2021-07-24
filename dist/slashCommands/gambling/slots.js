@@ -16,7 +16,6 @@ const multiplier = slotsEmoji.length;
 exports.default = {
     name: "slots",
     description: `Test your luck and play the slots. Each slot win gives you ${multiplier}x the amount you gambled.`,
-    testOnly: true,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     options: [
         {
