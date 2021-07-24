@@ -1,0 +1,27 @@
+{
+  "name": "pinebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "prettier --config .prettierrc 'src/**/*.ts' --write && ts-node ./src/index.ts",
+    "run-js": "tsc -p . && node ./dist/index.js",
+    "compile": "tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dayjs": "^1.10.6",
+    "discord.js": "^13.0.0-dev.4886ae2.1627085022",
+    "dotenv": "^10.0.0",
+    "mongoose": "^5.13.3",
+    "ms": "^2.1.2",
+    "prettier": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/ms": "^0.7.31"
+  }
+}

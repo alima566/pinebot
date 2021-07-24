@@ -1,0 +1,13 @@
+{
+    "ROLE_EVENTS": "YELLOW",
+    "CHANNEL_EVENTS": "GREEN",
+    "MESSAGE_EVENTS": "RED",
+    "MUTE": "YELLOW",
+    "GUILD_MEMBER_ADD": "#ff69b4",
+    "GUILD_MEMBER_EVENTS": "PURPLE",
+    "GUILD_MEMBER_ROLES": "BLUE",
+    "GUILD_BAN_ADD": "#cc0202",
+    "GUILD_BAN_REMOVE": "#33a532",
+    "MUSIC_COMMANDS": "#1ed761",
+    "GAMBLING": "#85bb65"
+}
