@@ -1,10 +1,11 @@
 import { Command } from "../../interfaces/Command";
-import { getGuildInfo, formatNumber } from "../../utils/utils";
+import { getGuildInfo, formatNumber, setCooldown } from "../../utils/utils";
 import { MessageEmbed } from "discord.js";
 
 export default {
     name: "jackpot",
     category: "Gambling",
+    cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS", "MANAGE_MESSAGES"],
     async execute({ client, message }) {
         const guildInfo = await getGuildInfo(client, message.guild!.id);
@@ -30,6 +31,7 @@ export default {
             return message.delete();
         }
 
+        setCooldown(client, this, message);
         const msgEmbed = new MessageEmbed()
             .setColor("#85bb65")
             .setTitle("Current Jackpot Amount")

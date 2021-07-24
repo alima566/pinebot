@@ -14,6 +14,7 @@ const discord_js_1 = require("discord.js");
 exports.default = {
     name: "jackpot",
     category: "Gambling",
+    cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS", "MANAGE_MESSAGES"],
     execute({ client, message }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -39,6 +40,7 @@ exports.default = {
                 }, 1000 * 3);
                 return message.delete();
             }
+            utils_1.setCooldown(client, this, message);
             const msgEmbed = new discord_js_1.MessageEmbed()
                 .setColor("#85bb65")
                 .setTitle("Current Jackpot Amount")
