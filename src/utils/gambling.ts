@@ -1,11 +1,8 @@
 import { Snowflake } from "discord.js";
-import { getGuildInfo } from "./utils";
 import gamblingSchema from "../models/gamblingSchema";
 import { Client } from "../Client";
 
 const pointsCache: any = {};
-const gamblingChannelCache: any = {};
-const jackpotCache: any = {};
 
 export const addPoints = async (guildID: Snowflake, userID: Snowflake, points: number) => {
     const result = await gamblingSchema.findOneAndUpdate(
@@ -76,8 +73,6 @@ export const getPoints = async (guildID: Snowflake, userID: Snowflake) => {
 };
 
 export const updateJackpotAmount = async (client: Client, guildID: Snowflake, amount: number) => {
-    //let guildInfo = await getGuildInfo(client, guildID);
-
     let guildInfo = await client.DBGuild.findByIdAndUpdate(
         guildID,
         { $inc: { "gambling.jackpotAmount": amount } },
@@ -85,8 +80,6 @@ export const updateJackpotAmount = async (client: Client, guildID: Snowflake, am
     );
 
     client.guildInfoCache.set(guildID, guildInfo);
-
-    //     jackpotCache[guildID] = result.jackpot;
 };
 
 export const resetJackpotAmount = async (client: Client, guildID: Snowflake) => {
@@ -96,24 +89,4 @@ export const resetJackpotAmount = async (client: Client, guildID: Snowflake) => 
         { new: true, upsert: true, setDefaultsOnInsert: true }
     );
     client.guildInfoCache.set(guildID, guildInfo);
-    //   try {
-    //     const result = await jackpotSchema.findOneAndUpdate(
-    //       {
-    //         _id: guildID
-    //       },
-    //       {
-    //         _id: guildID,
-    //         $set: {
-    //           jackpot: 10000 // Reset jackpot amount to 10,000
-    //         }
-    //       },
-    //       {
-    //         upsert: true,
-    //         new: true
-    //       }
-    //     );
-    //     jackpotCache[guildID] = result.jackpot;
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
 };

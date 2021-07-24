@@ -15,8 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resetJackpotAmount = exports.updateJackpotAmount = exports.getPoints = exports.setPoints = exports.addPoints = void 0;
 const gamblingSchema_1 = __importDefault(require("../models/gamblingSchema"));
 const pointsCache = {};
-const gamblingChannelCache = {};
-const jackpotCache = {};
 const addPoints = (guildID, userID, points) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield gamblingSchema_1.default.findOneAndUpdate({
         guildID,
@@ -78,34 +76,12 @@ const getPoints = (guildID, userID) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.getPoints = getPoints;
 const updateJackpotAmount = (client, guildID, amount) => __awaiter(void 0, void 0, void 0, function* () {
-    //let guildInfo = await getGuildInfo(client, guildID);
     let guildInfo = yield client.DBGuild.findByIdAndUpdate(guildID, { $inc: { "gambling.jackpotAmount": amount } }, { new: true, upsert: true, setDefaultsOnInsert: true });
     client.guildInfoCache.set(guildID, guildInfo);
-    //     jackpotCache[guildID] = result.jackpot;
 });
 exports.updateJackpotAmount = updateJackpotAmount;
 const resetJackpotAmount = (client, guildID) => __awaiter(void 0, void 0, void 0, function* () {
     let guildInfo = yield client.DBGuild.findByIdAndUpdate(guildID, { $set: { "gambling.jackpotAmount": 10000 } }, { new: true, upsert: true, setDefaultsOnInsert: true });
     client.guildInfoCache.set(guildID, guildInfo);
-    //   try {
-    //     const result = await jackpotSchema.findOneAndUpdate(
-    //       {
-    //         _id: guildID
-    //       },
-    //       {
-    //         _id: guildID,
-    //         $set: {
-    //           jackpot: 10000 // Reset jackpot amount to 10,000
-    //         }
-    //       },
-    //       {
-    //         upsert: true,
-    //         new: true
-    //       }
-    //     );
-    //     jackpotCache[guildID] = result.jackpot;
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
 });
 exports.resetJackpotAmount = resetJackpotAmount;
