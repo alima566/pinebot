@@ -52,6 +52,12 @@ exports.default = {
                     ephemeral: true
                 });
             }
+            if (user.id == interaction.user.id) {
+                return interaction.reply({
+                    content: "You cannot give yourself pina coladas.",
+                    ephemeral: true
+                });
+            }
             if (!utils_1.isValidNumber(points.trim())) {
                 return interaction.reply({ content: "Please provide a valid number of pina coladas." });
             }

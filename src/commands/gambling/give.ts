@@ -43,6 +43,10 @@ export default {
             });
         }
 
+        if (mention.id == message.author.id) {
+            return message.reply({ content: "You cannot give yourself pina coladas." });
+        }
+
         if (!isValidNumber(args[1].trim())) {
             return message.reply({ content: "Please provide a valid number of pina coladas." });
         }

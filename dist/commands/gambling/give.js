@@ -50,6 +50,9 @@ exports.default = {
                     content: "Please mention a user to give your pina coladas to."
                 });
             }
+            if (mention.id == message.author.id) {
+                return message.reply({ content: "You cannot give yourself pina coladas." });
+            }
             if (!utils_1.isValidNumber(args[1].trim())) {
                 return message.reply({ content: "Please provide a valid number of pina coladas." });
             }
