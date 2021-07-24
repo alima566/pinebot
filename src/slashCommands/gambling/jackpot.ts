@@ -5,7 +5,6 @@ import { MessageEmbed } from "discord.js";
 export default {
     name: "jackpot",
     description: "Check the current jackpot amount.",
-    testOnly: true,
     cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     async execute({ client, interaction }) {

@@ -14,8 +14,7 @@ const discord_js_1 = require("discord.js");
 exports.default = {
     name: "jackpot",
     description: "Check the current jackpot amount.",
-    testOnly: true,
-    cooldown: 15,
+    cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     execute({ client, interaction }) {
         return __awaiter(this, void 0, void 0, function* () {
