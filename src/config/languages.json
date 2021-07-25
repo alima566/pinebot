@@ -1,0 +1,97 @@
+{
+    "english": {
+        "addpoints": {
+            "description": "Adds the specified amount of points to the specified member or all members.",
+            "usage": "- `{PREFIX}addpoints <Target's @ OR all> <Amount>`"
+        },
+        "alias": {
+            "description": "Set your own custom aliases for any command.",
+            "usage": "- `{PREFIX}alias` to view all aliases\n- `{PREFIX}alias set <New Alias> <Command Name>` to add a new alias for a specific command\n- `{PREFIX}alias remove <Alias>` to remove an existing alias"
+        },
+        "blackjack": {
+            "description": "Play blackjack with the bot. Get as close to 21 without going over and you'll win! Ties are considered as losses.",
+            "usage": "- `{PREFIX}blackjack <Amount OR all>`"
+        },
+        "commands": {
+            "description": "Check the disabled commands and enable/disable commands.",
+            "usage": "- `{PREFIX}commands` to display all currently disabled commands\n- `{PREFIX}commands <disable/enable> <Command>` to disable/enable commands."
+        },
+        "cooldowns": {
+            "description": "Check all the custom cooldowns of a command and add new cooldowns.",
+            "usage": "- `{PREFIX}cooldowns <Command>` to display all modified cooldowns for a command and update them.\n- `{PREFIX}cooldowns <Command> set <Role> <Cooldown>` to set the cooldown for this command to a certain value.\n- `{PREFIX}cooldowns <Command> clear <Role>` to use the default cooldown for this command."
+        },
+        "daily": {
+            "description": "Gives users their daily reward of `1,000` points.",
+            "usage": "- `{PREFIX}daily`"
+        },
+        "gamble": {
+            "description": "Test your luck and gamble your points.",
+            "usage": "- `{PREFIX}gamble <Amount OR all>`"
+        },
+        "give": {
+            "description": "Gives another user your pina coladas.",
+            "usage": "- `{PREFIX}give <Target's @> <Amount>`"
+        },
+        "help": {
+            "description": "Get help on commands.",
+            "examples": "`{PREFIX}help ping`",
+            "names": {
+                "aliases": "Aliases",
+                "categories": {
+                    "Misc": "Misc",
+                    "No category": "No Category",
+                    "Utility": "Utility"
+                },
+                "categoriesHelp": "Use `{PREFIX}help [category]` to get more info on a category, for example: `{PREFIX}help misc`",
+                "categoriesName": "Categories",
+                "commandCategories": "Command Categories",
+                "cooldown": "Cooldown",
+                "examples": "Examples",
+                "isDisabled": "This command is currently disabled in this server.",
+                "noCategory": "No Category",
+                "usage": "Usage"
+            },
+            "usage": "To get help on a specific command, use `{PREFIX}help [Command Name]` (without the [ ]).\nFor a full list of all commands, simply use `{PREFIX}help`.\n\n**Note:** `<>` means required arguments. `[]` means optional arguments."
+        },
+        "hug": {
+            "description": "Give someone a hug.",
+            "usage": "- `{PREFIX}hug [Member]`"
+        },
+        "jackpot": {
+            "description": "Check the current jackpot amount.",
+            "usage": "- `{PREFIX}jackpot`"
+        },
+        "points": {
+            "description": "Displays how many points you or another user has and current ranking.",
+            "usage": "- `{PREFIX}points [Target's @ OR ID Number]`"
+        },
+        "setcolor": {
+            "description": "Set your own embed color.",
+            "usage": "- `{PREFIX}setcolor` to view your color and all available colors.\n- `{PREFIX}setcolor <New Color>` to set your color."
+        },
+        "setdaily": {
+            "description": "Set's the daily reward amount.",
+            "usage": "- `{PREFIX}setdaily <Amount>`"
+        },
+        "setgamblingchannel": {
+            "description": "Sets the server's gambling channel to enable gambling.",
+            "usage": "- `{PREFIX}setgamblingchannel [Tagged Channel]`"
+        },
+        "setpoints": {
+            "description": "Sets the specified amount of points to the specified member or all members.",
+            "usage": "- `{PREFIX}setpoints <Target's @ OR all> <Amount>`"
+        },
+        "setprefix": {
+            "description": "Set a new prefix for your server.",
+            "usage": "- `{PREFIX}setprefix <New Prefix>`"
+        },
+        "slots": {
+            "description": "Test your luck and play the slots. Each slot win gives you 4 times the amount you bet.",
+            "usage": "- `{PREFIX}slots <Amount OR all>`"
+        },
+        "top": {
+            "description": "See the top 10 gamblers with the most pina coladas.",
+            "usage": "- `{PREFIX}top`"
+        }
+    }
+}
