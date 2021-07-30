@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "dayjs": "^1.10.6",
-    "discord.js": "^13.0.0-dev.4886ae2.1627085022",
+    "discord.js": "^13.0.0-dev.2675b08.1627646567",
     "dotenv": "^10.0.0",
     "mongoose": "^5.13.3",
     "ms": "^2.1.2",
