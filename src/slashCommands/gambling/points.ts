@@ -17,13 +17,9 @@ export default {
         }
     ],
     async execute({ client, interaction }) {
-        let target;
-        if (!interaction.options.get("user")) {
-            target = interaction.user;
-        } else {
-            const { user } = interaction.options.get("user")!;
-            target = user;
-        }
+        const target = !interaction.options.getUser("user")
+            ? interaction.user
+            : interaction.options.getUser("user");
 
         const guildInfo = await getGuildInfo(client, interaction.guild!.id);
         const { gamblingChannel } = guildInfo.gambling;

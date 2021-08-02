@@ -26,8 +26,7 @@ exports.default = {
     execute({ client, interaction }) {
         return __awaiter(this, void 0, void 0, function* () {
             const { guildId, user, channel } = interaction;
-            let { value: points } = interaction.options.get("points");
-            points = points;
+            const points = interaction.options.getString("points");
             const guildInfo = yield utils_1.getGuildInfo(client, guildId);
             const { gamblingChannel } = guildInfo.gambling;
             if (gamblingChannel) {

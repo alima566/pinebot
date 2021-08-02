@@ -30,14 +30,9 @@ exports.default = {
     ],
     execute({ client, interaction }) {
         return __awaiter(this, void 0, void 0, function* () {
-            let target;
-            if (!interaction.options.get("user")) {
-                target = interaction.user;
-            }
-            else {
-                const { user } = interaction.options.get("user");
-                target = user;
-            }
+            const target = !interaction.options.getUser("user")
+                ? interaction.user
+                : interaction.options.getUser("user");
             const guildInfo = yield utils_1.getGuildInfo(client, interaction.guild.id);
             const { gamblingChannel } = guildInfo.gambling;
             if (gamblingChannel) {

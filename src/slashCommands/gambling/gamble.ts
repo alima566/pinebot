@@ -30,8 +30,7 @@ export default {
     ],
     async execute({ client, interaction }) {
         const { guildId, user, channel } = interaction;
-        let { value: points } = interaction.options.get("points")!;
-        points = points as string;
+        const points = interaction.options.getString("points");
 
         const guildInfo = await getGuildInfo(client, guildId!);
         const { gamblingChannel } = guildInfo.gambling;
@@ -51,17 +50,17 @@ export default {
         }
 
         const actualPoints = await getPoints(guildId!, user.id);
-        if (points.toLowerCase() == "all") {
+        if (points!.toLowerCase() == "all") {
             return rollDice(client, interaction, actualPoints, true, guildInfo);
         }
 
-        if (!isValidNumber(points.trim())) {
+        if (!isValidNumber(points!.trim())) {
             return interaction.reply({
                 content: "Please provide a valid number of pina coladas."
             });
         }
 
-        const pointsToGamble = removeCommas(points.trim());
+        const pointsToGamble = removeCommas(points!.trim());
 
         if (actualPoints == 0) {
             return interaction.reply({

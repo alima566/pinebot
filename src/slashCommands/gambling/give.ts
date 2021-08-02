@@ -23,9 +23,8 @@ export default {
     ],
     async execute({ client, interaction }) {
         const { guildId, channel } = interaction;
-        const { user } = interaction.options.get("user")!;
-        let { value: points } = interaction.options.get("points")!;
-        points = points as string;
+        const user = interaction.options.getUser("user")!;
+        const points = interaction.options.getString("points")!;
 
         const guildInfo = await getGuildInfo(client, guildId!);
         const { gamblingChannel } = guildInfo.gambling;
