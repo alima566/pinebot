@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const builders_1 = require("@discordjs/builders");
 const utils_1 = require("../../utils/utils");
 const gambling_1 = require("../../utils/gambling");
 const dailyRewardsSchema_1 = __importDefault(require("../../models/dailyRewardsSchema"));
@@ -27,8 +28,7 @@ const clearCache = () => {
 };
 clearCache();
 exports.default = {
-    name: "daily",
-    description: "Claim your daily reward.",
+    data: new builders_1.SlashCommandBuilder().setName("daily").setDescription("Claim your daily reward."),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     execute({ client, interaction }) {
         return __awaiter(this, void 0, void 0, function* () {

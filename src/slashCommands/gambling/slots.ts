@@ -1,4 +1,5 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { addPoints, getPoints, updateJackpotAmount } from "../../utils/gambling";
 import {
     getGuildInfo,
@@ -13,17 +14,18 @@ const slotsEmoji: string[] = ["💰", "✨", "💩", "🍍"];
 const multiplier = slotsEmoji.length;
 
 export default {
-    name: "slots",
-    description: `Test your luck and play the slots. Each slot win gives you ${multiplier}x the amount you gambled.`,
+    data: new SlashCommandBuilder()
+        .setName("slots")
+        .setDescription(
+            `Test your luck and play the slots. Each slot win gives you ${multiplier}x the amount you gambled.`
+        )
+        .addStringOption((option) =>
+            option
+                .setName("points")
+                .setDescription("The amount of pina coladas (or all) to gamble.")
+                .setRequired(true)
+        ),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "points",
-            description: "The amount of pina coladas (or all) to gamble.",
-            type: "STRING",
-            required: true
-        }
-    ],
     async execute({ client, interaction }) {
         const { guildId, user, channel } = interaction;
         const points = interaction.options.getString("points")!;

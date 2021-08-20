@@ -1,4 +1,5 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import {
     getGuildInfo,
     formatNumber,
@@ -17,17 +18,16 @@ import { GuildInfo } from "../../interfaces/GuildInfo";
 import { CommandInteraction } from "discord.js";
 
 export default {
-    name: "gamble",
-    description: "Test your luck and gamble your pina coladas.",
+    data: new SlashCommandBuilder()
+        .setName("gamble")
+        .setDescription("Test your luck and gamble your pina coladas.")
+        .addStringOption((option) =>
+            option
+                .setName("points")
+                .setDescription("The amount of pina coladas (or all) to gamble.")
+                .setRequired(true)
+        ),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "points",
-            description: "The amount of pina coladas (or all) to gamble.",
-            type: "STRING",
-            required: true
-        }
-    ],
     async execute({ client, interaction }) {
         const { guildId, user, channel } = interaction;
         const points = interaction.options.getString("points");

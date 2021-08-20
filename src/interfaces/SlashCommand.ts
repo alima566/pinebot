@@ -1,10 +1,9 @@
 import { PermissionResolvable } from "discord.js";
 import { ExecuteSlash } from "../types/ExecuteSlash";
-import { SlashCommandOptions } from "../types/SlashCommandOptions";
+import { SlashCommandBuilder } from "@discordjs/builders";
 
 export interface SlashCommand {
-    name: string;
-    description: string;
+    data: SlashCommandBuilder;
     cooldown?: number;
     globalCooldown?: boolean;
     perms?: PermissionResolvable[];
@@ -13,6 +12,5 @@ export interface SlashCommand {
     someServersOnly?: boolean;
     serverOwnerOnly?: boolean;
     testOnly?: boolean;
-    options?: SlashCommandOptions[];
     execute(p: ExecuteSlash): any;
 }

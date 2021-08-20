@@ -33,9 +33,9 @@ export default async (client: Client, interaction: Interaction) => {
         let cooldowns;
         if (cd) {
             if (typeof slash.globalCooldown === "undefined" || slash.globalCooldown) {
-                if (!client.globalCooldowns.has(slash.name)) {
+                if (!client.globalCooldowns.has(slash.data.name)) {
                     client.globalCooldowns.set(
-                        slash.name,
+                        slash.data.name,
                         new Discord.Collection<Snowflake, number>()
                     );
                 }
@@ -48,13 +48,13 @@ export default async (client: Client, interaction: Interaction) => {
                     );
                 }
                 cooldowns = client.serverCooldowns.get(interaction.guild!.id);
-                if (!cooldowns!.has(slash.name)) {
-                    cooldowns!.set(slash.name, new Discord.Collection<Snowflake, number>());
+                if (!cooldowns!.has(slash.data.name)) {
+                    cooldowns!.set(slash.data.name, new Discord.Collection<Snowflake, number>());
                 }
             }
 
             const now = Date.now();
-            const timestamps = cooldowns!.get(slash.name)!;
+            const timestamps = cooldowns!.get(slash.data.name)!;
             const cooldownAmount = cd * 1000;
             if (timestamps.has(interaction.user.id)) {
                 const expirationTime = timestamps.get(interaction.user.id)! + cooldownAmount;

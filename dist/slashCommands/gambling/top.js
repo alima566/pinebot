@@ -12,12 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const builders_1 = require("@discordjs/builders");
 const utils_1 = require("../../utils/utils");
 const discord_js_1 = require("discord.js");
 const gamblingSchema_1 = __importDefault(require("../../models/gamblingSchema"));
 exports.default = {
-    name: "top",
-    description: "See the top 10 gamblers with the most pina coladas.",
+    data: new builders_1.SlashCommandBuilder()
+        .setName("top")
+        .setDescription("See the top 10 gamblers with the most pina coladas."),
     cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     execute({ client, interaction }) {

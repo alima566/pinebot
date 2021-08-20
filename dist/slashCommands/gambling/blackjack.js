@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const builders_1 = require("@discordjs/builders");
 const utils_1 = require("../../utils/utils");
 const gambling_1 = require("../../utils/gambling");
 const discord_js_1 = require("discord.js");
@@ -18,17 +19,14 @@ const hit = "👍";
 const stand = "👎";
 let deck = [], playerCards = [], playerPoints = 0, playerCardString = "", dealerCards = [], dealerCardString = "", dealerPoints = 0, gameOver, playerWon, inProgress = false;
 exports.default = {
-    name: "blackjack",
-    description: "Play blackjack with the bot.",
+    data: new builders_1.SlashCommandBuilder()
+        .setName("blackjack")
+        .setDescription("Play blackjack with the bot.")
+        .addStringOption((option) => option
+        .setName("points")
+        .setDescription("The amount of pina coladas (or all) to gamble.")
+        .setRequired(true)),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "points",
-            description: "The amount of pina coladas (or all) to gamble.",
-            type: "STRING",
-            required: true
-        }
-    ],
     execute({ client, interaction }) {
         return __awaiter(this, void 0, void 0, function* () {
             const { guildId, user, channel } = interaction;

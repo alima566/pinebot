@@ -9,11 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const builders_1 = require("@discordjs/builders");
 const utils_1 = require("../../utils/utils");
 const discord_js_1 = require("discord.js");
 exports.default = {
-    name: "jackpot",
-    description: "Check the current jackpot amount.",
+    data: new builders_1.SlashCommandBuilder()
+        .setName("jackpot")
+        .setDescription("Check the current jackpot amount."),
     cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     execute({ client, interaction }) {

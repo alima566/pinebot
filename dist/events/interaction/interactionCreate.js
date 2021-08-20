@@ -53,8 +53,8 @@ exports.default = (client, interaction) => __awaiter(void 0, void 0, void 0, fun
         let cooldowns;
         if (cd) {
             if (typeof slash.globalCooldown === "undefined" || slash.globalCooldown) {
-                if (!client.globalCooldowns.has(slash.name)) {
-                    client.globalCooldowns.set(slash.name, new discord_js_1.default.Collection());
+                if (!client.globalCooldowns.has(slash.data.name)) {
+                    client.globalCooldowns.set(slash.data.name, new discord_js_1.default.Collection());
                 }
                 cooldowns = client.globalCooldowns;
             }
@@ -63,12 +63,12 @@ exports.default = (client, interaction) => __awaiter(void 0, void 0, void 0, fun
                     client.serverCooldowns.set(interaction.guild.id, new discord_js_1.default.Collection());
                 }
                 cooldowns = client.serverCooldowns.get(interaction.guild.id);
-                if (!cooldowns.has(slash.name)) {
-                    cooldowns.set(slash.name, new discord_js_1.default.Collection());
+                if (!cooldowns.has(slash.data.name)) {
+                    cooldowns.set(slash.data.name, new discord_js_1.default.Collection());
                 }
             }
             const now = Date.now();
-            const timestamps = cooldowns.get(slash.name);
+            const timestamps = cooldowns.get(slash.data.name);
             const cooldownAmount = cd * 1000;
             if (timestamps.has(interaction.user.id)) {
                 const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;

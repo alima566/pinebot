@@ -31,11 +31,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerSlashCommand = exports.registerCommands = exports.registerEvents = void 0;
+exports.registerSlashCommands = exports.registerCommands = exports.registerEvents = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const rest_1 = require("@discordjs/rest");
+const v9_1 = require("discord-api-types/v9");
 const config_json_1 = require("../config/config.json");
-const capitalRegex = /[A-Z]/;
 function registerCommands(client, ...dirs) {
     return __awaiter(this, void 0, void 0, function* () {
         for (const dir of dirs) {
@@ -101,80 +102,38 @@ function registerCommands(client, ...dirs) {
     });
 }
 exports.registerCommands = registerCommands;
-function registerSlashCommand(client, ...dirs) {
+function registerSlashCommands(client, ...dirs) {
     return __awaiter(this, void 0, void 0, function* () {
+        const slashCommands = [];
+        const rest = new rest_1.REST({ version: "9" }).setToken(`${process.env.DISCORD_TOKEN}`);
         for (const dir of dirs) {
             const files = yield fs_1.default.promises.readdir(path_1.default.join(__dirname, dir));
             for (let file of files) {
-                const stat = yield fs_1.default.promises.lstat(path_1.default.join(__dirname, dir, file));
-                if (stat.isDirectory())
-                    registerSlashCommand(client, path_1.default.join(dir, file));
-                else {
-                    if (file.endsWith(".ts") || file.endsWith(".js")) {
-                        try {
-                            const slashCmdModule = (yield Promise.resolve().then(() => __importStar(require(path_1.default.join(__dirname, dir, file))))).default;
-                            const { name, description, testOnly, execute, options } = slashCmdModule;
-                            if (!name) {
-                                console.warn(`The slash command "${path_1.default.join(__dirname, dir, file)}" doesn't have a name. This is required for slash commands.`);
-                                continue;
-                            }
-                            if (capitalRegex.test(name.charAt(0))) {
-                                console.log(`The slash command "${name}" starts with a capital letter. It must be in all lowercase.`);
-                                continue;
-                            }
-                            if (!description) {
-                                console.warn(`The slash command "${name}" doesn't have a description. This is required for slash commands.`);
-                                continue;
-                            }
-                            if (!execute) {
-                                if (!execute) {
-                                    console.warn(`The slash command "${name}" doesn't have an execute function.`);
-                                    continue;
-                                }
-                            }
-                            if (options) {
-                                for (let i = 0; i < options.length; i++) {
-                                    if (!options[i].name) {
-                                        console.warn(`One of the options for slash command "${name}" doesn't have a name. This is required for slash commands.`);
-                                        continue;
-                                    }
-                                    if (!options[i].description) {
-                                        console.warn(`One of the options for slash command "${name}" doesn't have a description. This is required.`);
-                                        continue;
-                                    }
-                                    if (capitalRegex.test(options[i].name.charAt(0))) {
-                                        console.log(`One of the options for slash command "${name}" starts with a capital letter. It must be in all lowercase.`);
-                                        continue;
-                                    }
-                                }
-                            }
-                            client.slashCommands.set(name, slashCmdModule);
-                            const data = {
-                                name,
-                                description,
-                                options
-                            };
-                            if (testOnly) {
-                                for (let i = 0; i < config_json_1.testServer.length; i++) {
-                                    yield client.guilds.cache
-                                        .get(config_json_1.testServer[i])
-                                        .commands.create(data);
-                                }
-                            }
-                            else {
-                                yield client.application.commands.create(data);
-                            }
-                        }
-                        catch (e) {
-                            console.log(e);
-                        }
+                console.log(file);
+                const slashCmdModule = (yield Promise.resolve().then(() => __importStar(require(path_1.default.join(__dirname, dir, file)))))
+                    .default;
+                slashCommands.push(slashCmdModule.data.toJSON());
+                try {
+                    console.log("Started refreshing application (/) commands.");
+                    if (slashCmdModule.testOnly) {
+                        yield rest.put(v9_1.Routes.applicationGuildCommands(`${process.env.DISCORD_CLIENT_ID}`, config_json_1.testServer[0]), { body: slashCommands });
                     }
+                    else {
+                        yield rest.put(v9_1.Routes.applicationCommands(`${process.env.DISCORD_CLIENT_ID}`), {
+                            body: slashCommands
+                        });
+                    }
+                    client.slashCommands.set(slashCmdModule.data.name, slashCmdModule);
+                    console.log("Successfully reloaded application (/) commands.");
+                }
+                catch (e) {
+                    console.log(e);
                 }
             }
         }
     });
 }
-exports.registerSlashCommand = registerSlashCommand;
+exports.registerSlashCommands = registerSlashCommands;
 function registerEvents(client, dir) {
     return __awaiter(this, void 0, void 0, function* () {
         const files = yield fs_1.default.promises.readdir(path_1.default.join(__dirname, dir));

@@ -12,22 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const builders_1 = require("@discordjs/builders");
 const discord_js_1 = require("discord.js");
 const gambling_1 = require("../../utils/gambling");
 const utils_1 = require("../../utils/utils");
 const gamblingSchema_1 = __importDefault(require("../../models/gamblingSchema"));
 exports.default = {
-    name: "points",
-    description: "See your points or another user's.",
+    data: new builders_1.SlashCommandBuilder()
+        .setName("points")
+        .setDescription("See the amount of pina coladas you have or another member's.")
+        .addUserOption((option) => option.setName("user").setDescription("The other member's pina coladas to check.")),
     cooldown: 15,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "user",
-            description: "The other user's points to check.",
-            type: "USER"
-        }
-    ],
     execute({ client, interaction }) {
         return __awaiter(this, void 0, void 0, function* () {
             const target = !interaction.options.getUser("user")

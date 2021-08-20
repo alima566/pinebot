@@ -1,26 +1,26 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { formatNumber, removeCommas, isValidNumber, getGuildInfo } from "../../utils/utils";
 import { addPoints, getPoints } from "../../utils/gambling";
 import { MessageEmbed } from "discord.js";
 
 export default {
-    name: "give",
-    description: "Gives another user your pina coladas.",
+    data: new SlashCommandBuilder()
+        .setName("give")
+        .setDescription("Gives another user your pina coladas.")
+        .addUserOption((option) =>
+            option
+                .setName("user")
+                .setDescription("The user you want to give your pina coladas to.")
+                .setRequired(true)
+        )
+        .addStringOption((option) =>
+            option
+                .setName("points")
+                .setDescription("The amount of pina coladas to give.")
+                .setRequired(true)
+        ),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "user",
-            description: "The user you want to give your pina coladas to.",
-            type: "USER",
-            required: true
-        },
-        {
-            name: "points",
-            description: "The user you want to give your pina coladas to.",
-            type: "STRING",
-            required: true
-        }
-    ],
     async execute({ client, interaction }) {
         const { guildId, channel } = interaction;
         const user = interaction.options.getUser("user")!;
@@ -51,7 +51,10 @@ export default {
         }
 
         if (!isValidNumber(points.trim())) {
-            return interaction.reply({ content: "Please provide a valid number of pina coladas." });
+            return interaction.reply({
+                content: "Please provide a valid number of pina coladas.",
+                ephemeral: true
+            });
         }
 
         const pointsToGive = removeCommas(points.trim());
@@ -61,7 +64,10 @@ export default {
         }
 
         if (isNaN(+pointsToGive) || !Number.isInteger(+pointsToGive)) {
-            return interaction.reply({ content: "Please provide a valid number of pina coladas." });
+            return interaction.reply({
+                content: "Please provide a valid number of pina coladas.",
+                ephemeral: true
+            });
         }
 
         if (+pointsToGive < 1) {

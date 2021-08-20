@@ -1,10 +1,12 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { getGuildInfo, formatNumber, setCooldown } from "../../utils/utils";
 import { MessageEmbed } from "discord.js";
 
 export default {
-    name: "jackpot",
-    description: "Check the current jackpot amount.",
+    data: new SlashCommandBuilder()
+        .setName("jackpot")
+        .setDescription("Check the current jackpot amount."),
     cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     async execute({ client, interaction }) {

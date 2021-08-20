@@ -1,4 +1,5 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import {
     getGuildInfo,
     formatNumber,
@@ -36,17 +37,16 @@ let deck: Card[] = [],
     inProgress = false;
 
 export default {
-    name: "blackjack",
-    description: "Play blackjack with the bot.",
+    data: new SlashCommandBuilder()
+        .setName("blackjack")
+        .setDescription("Play blackjack with the bot.")
+        .addStringOption((option) =>
+            option
+                .setName("points")
+                .setDescription("The amount of pina coladas (or all) to gamble.")
+                .setRequired(true)
+        ),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "points",
-            description: "The amount of pina coladas (or all) to gamble.",
-            type: "STRING",
-            required: true
-        }
-    ],
     async execute({ client, interaction }) {
         const { guildId, user, channel } = interaction;
         const points = interaction.options.getString("points")!;

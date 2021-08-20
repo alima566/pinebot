@@ -9,27 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const builders_1 = require("@discordjs/builders");
 const utils_1 = require("../../utils/utils");
 const gambling_1 = require("../../utils/gambling");
 const discord_js_1 = require("discord.js");
 exports.default = {
-    name: "give",
-    description: "Gives another user your pina coladas.",
+    data: new builders_1.SlashCommandBuilder()
+        .setName("give")
+        .setDescription("Gives another user your pina coladas.")
+        .addUserOption((option) => option
+        .setName("user")
+        .setDescription("The user you want to give your pina coladas to.")
+        .setRequired(true))
+        .addStringOption((option) => option
+        .setName("points")
+        .setDescription("The amount of pina coladas to give.")
+        .setRequired(true)),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "user",
-            description: "The user you want to give your pina coladas to.",
-            type: "USER",
-            required: true
-        },
-        {
-            name: "points",
-            description: "The user you want to give your pina coladas to.",
-            type: "STRING",
-            required: true
-        }
-    ],
     execute({ client, interaction }) {
         return __awaiter(this, void 0, void 0, function* () {
             const { guildId, channel } = interaction;
@@ -58,7 +54,10 @@ exports.default = {
                 });
             }
             if (!utils_1.isValidNumber(points.trim())) {
-                return interaction.reply({ content: "Please provide a valid number of pina coladas." });
+                return interaction.reply({
+                    content: "Please provide a valid number of pina coladas.",
+                    ephemeral: true
+                });
             }
             const pointsToGive = utils_1.removeCommas(points.trim());
             const actualPoints = yield gambling_1.getPoints(guildId, interaction.user.id);
@@ -66,7 +65,10 @@ exports.default = {
                 return interaction.reply({ content: "You have no pina coladas to give!" });
             }
             if (isNaN(+pointsToGive) || !Number.isInteger(+pointsToGive)) {
-                return interaction.reply({ content: "Please provide a valid number of pina coladas." });
+                return interaction.reply({
+                    content: "Please provide a valid number of pina coladas.",
+                    ephemeral: true
+                });
             }
             if (+pointsToGive < 1) {
                 return interaction.reply({ content: "You must give at least 1 pina colada." });

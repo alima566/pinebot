@@ -370,15 +370,20 @@ const getCooldown = (
 ) => {
     let guildInfo = client.guildInfoCache.get(type.guild!.id);
     let cd = command.cooldown;
+
+    const commandName = (<Command>command).name
+        ? (<Command>command).name
+        : (<SlashCommand>command).data.name;
+
     const member = type.member as GuildMember;
-    if (guildInfo!.commandCooldowns && guildInfo!.commandCooldowns[command.name]) {
-        const roles = Object.keys(guildInfo!.commandCooldowns[command.name]);
+    if (guildInfo!.commandCooldowns && guildInfo!.commandCooldowns[commandName]) {
+        const roles = Object.keys(guildInfo!.commandCooldowns[commandName]);
         const highestRole = member!.roles.cache
             .filter((role) => roles.includes(role.id))
             .sort((a, b) => b.position - a.position)
             .first();
         if (highestRole) {
-            cd = guildInfo!.commandCooldowns[command.name][highestRole.id] / 1000;
+            cd = guildInfo!.commandCooldowns[commandName][highestRole.id] / 1000;
         }
     }
     return cd;
@@ -398,10 +403,14 @@ const setCooldown = (
     const cd = getCooldown(client, command, type);
     if (!cd) return;
 
+    const commandName = (<Command>command).name
+        ? (<Command>command).name
+        : (<SlashCommand>command).data.name;
+
     let cooldowns;
     if (typeof command.globalCooldown === "undefined" || command.globalCooldown) {
-        if (!client.globalCooldowns.has(command.name)) {
-            client.globalCooldowns.set(command.name, new Discord.Collection());
+        if (!client.globalCooldowns.has(commandName)) {
+            client.globalCooldowns.set(commandName, new Discord.Collection());
         }
         cooldowns = client.globalCooldowns;
     } else {
@@ -413,13 +422,13 @@ const setCooldown = (
             client.serverCooldowns.set(type.guild!.id, new Discord.Collection());
         }
         cooldowns = client.serverCooldowns.get(type.guild!.id);
-        if (!cooldowns!.has(command.name)) {
-            cooldowns!.set(command.name, new Discord.Collection());
+        if (!cooldowns!.has(commandName)) {
+            cooldowns!.set(commandName, new Discord.Collection());
         }
     }
 
     const now = Date.now();
-    const timestamps = cooldowns!.get(command.name);
+    const timestamps = cooldowns!.get(commandName);
     const cooldownAmount = cd * 1000;
 
     if (type instanceof Discord.Message) {

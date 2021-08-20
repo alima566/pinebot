@@ -1,21 +1,19 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed, Snowflake } from "discord.js";
 import { getPoints } from "../../utils/gambling";
 import { getGuildInfo, formatNumber, setCooldown } from "../../utils/utils";
 import gamblingSchema from "../../models/gamblingSchema";
 
 export default {
-    name: "points",
-    description: "See your points or another user's.",
+    data: new SlashCommandBuilder()
+        .setName("points")
+        .setDescription("See the amount of pina coladas you have or another member's.")
+        .addUserOption((option) =>
+            option.setName("user").setDescription("The other member's pina coladas to check.")
+        ),
     cooldown: 15,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
-    options: [
-        {
-            name: "user",
-            description: "The other user's points to check.",
-            type: "USER"
-        }
-    ],
     async execute({ client, interaction }) {
         const target = !interaction.options.getUser("user")
             ? interaction.user

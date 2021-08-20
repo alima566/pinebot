@@ -1,4 +1,5 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { getGuildInfo, formatNumber } from "../../utils/utils";
 import { addPoints } from "../../utils/gambling";
 import dailyRewardsSchema from "../../models/dailyRewardsSchema";
@@ -17,8 +18,7 @@ const clearCache = () => {
 clearCache();
 
 export default {
-    name: "daily",
-    description: "Claim your daily reward.",
+    data: new SlashCommandBuilder().setName("daily").setDescription("Claim your daily reward."),
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     async execute({ client, interaction }) {
         const { channel, guild, user } = interaction;

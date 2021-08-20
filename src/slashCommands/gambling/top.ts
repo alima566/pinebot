@@ -1,11 +1,13 @@
 import { SlashCommand } from "../../interfaces/SlashCommand";
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { getGuildInfo, formatNumber, setCooldown } from "../../utils/utils";
 import { MessageEmbed } from "discord.js";
 import gamblingSchema from "../../models/gamblingSchema";
 
 export default {
-    name: "top",
-    description: "See the top 10 gamblers with the most pina coladas.",
+    data: new SlashCommandBuilder()
+        .setName("top")
+        .setDescription("See the top 10 gamblers with the most pina coladas."),
     cooldown: 30,
     clientPerms: ["SEND_MESSAGES", "EMBED_LINKS"],
     async execute({ client, interaction }) {
