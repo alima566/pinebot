@@ -2,7 +2,7 @@ import Discord from "discord.js";
 import mongoose from "mongoose";
 import { log } from "./utils/utils";
 import { Client } from "./Client";
-import { registerCommands, registerEvents, registerSlashCommand } from "./utils/registry";
+import { registerCommands, registerEvents, registerSlashCommands } from "./utils/registry";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -26,8 +26,11 @@ const client = new Discord.Client({
     client.guildInfoCache = new Discord.Collection();
     client.userInfoCache = new Discord.Collection();
 
+    //@ts-ignore
     client.DBGuild = (await import("./models/guildSchema")).default;
+    //@ts-ignore
     client.DBConfig = (await import("./models/config")).default;
+    //@ts-ignore
     client.DBUser = (await import("./models/userSchema")).default;
 
     client.serverCooldowns = new Discord.Collection();
@@ -61,7 +64,7 @@ const client = new Discord.Client({
 
         await registerEvents(client, "../events");
         await registerCommands(client, "../commands");
-        await registerSlashCommand(client, "../slashCommands");
+        await registerSlashCommands(client, "../slashCommands/gambling");
 
         log("SUCCESS", "./src/index.ts", `Logged in as ${client.user!.tag}!`);
     } catch (e) {

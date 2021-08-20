@@ -55,8 +55,11 @@ const client = new discord_js_1.default.Client({
     client.categories = new discord_js_1.default.Collection();
     client.guildInfoCache = new discord_js_1.default.Collection();
     client.userInfoCache = new discord_js_1.default.Collection();
+    //@ts-ignore
     client.DBGuild = (yield Promise.resolve().then(() => __importStar(require("./models/guildSchema")))).default;
+    //@ts-ignore
     client.DBConfig = (yield Promise.resolve().then(() => __importStar(require("./models/config")))).default;
+    //@ts-ignore
     client.DBUser = (yield Promise.resolve().then(() => __importStar(require("./models/userSchema")))).default;
     client.serverCooldowns = new discord_js_1.default.Collection();
     client.globalCooldowns = new discord_js_1.default.Collection();
@@ -81,7 +84,7 @@ const client = new discord_js_1.default.Client({
             yield client.application.fetch();
         yield registry_1.registerEvents(client, "../events");
         yield registry_1.registerCommands(client, "../commands");
-        yield registry_1.registerSlashCommand(client, "../slashCommands");
+        yield registry_1.registerSlashCommands(client, "../slashCommands/gambling");
         utils_1.log("SUCCESS", "./src/index.ts", `Logged in as ${client.user.tag}!`);
     }
     catch (e) {
