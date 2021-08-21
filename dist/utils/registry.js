@@ -105,31 +105,30 @@ exports.registerCommands = registerCommands;
 function registerSlashCommands(client, ...dirs) {
     return __awaiter(this, void 0, void 0, function* () {
         const slashCommands = [];
+        let slashCmdModule;
         const rest = new rest_1.REST({ version: "9" }).setToken(`${process.env.DISCORD_TOKEN}`);
         for (const dir of dirs) {
             const files = yield fs_1.default.promises.readdir(path_1.default.join(__dirname, dir));
             for (let file of files) {
-                console.log(file);
-                const slashCmdModule = (yield Promise.resolve().then(() => __importStar(require(path_1.default.join(__dirname, dir, file)))))
-                    .default;
+                slashCmdModule = (yield Promise.resolve().then(() => __importStar(require(path_1.default.join(__dirname, dir, file))))).default;
                 slashCommands.push(slashCmdModule.data.toJSON());
-                try {
-                    console.log("Started refreshing application (/) commands.");
-                    if (slashCmdModule.testOnly) {
-                        yield rest.put(v9_1.Routes.applicationGuildCommands(`${process.env.DISCORD_CLIENT_ID}`, config_json_1.testServer[0]), { body: slashCommands });
-                    }
-                    else {
-                        yield rest.put(v9_1.Routes.applicationCommands(`${process.env.DISCORD_CLIENT_ID}`), {
-                            body: slashCommands
-                        });
-                    }
-                    client.slashCommands.set(slashCmdModule.data.name, slashCmdModule);
-                    console.log("Successfully reloaded application (/) commands.");
-                }
-                catch (e) {
-                    console.log(e);
-                }
             }
+        }
+        try {
+            console.log("Started refreshing application (/) commands.");
+            if (slashCmdModule.testOnly) {
+                yield rest.put(v9_1.Routes.applicationGuildCommands(`${process.env.DISCORD_CLIENT_ID}`, config_json_1.testServer[0]), { body: slashCommands });
+            }
+            else {
+                yield rest.put(v9_1.Routes.applicationCommands(`${process.env.DISCORD_CLIENT_ID}`), {
+                    body: slashCommands
+                });
+            }
+            client.slashCommands.set(slashCmdModule.data.name, slashCmdModule);
+            console.log("Successfully reloaded application (/) commands.");
+        }
+        catch (e) {
+            console.error(`Error loading slash commands: ${e}`);
         }
     });
 }

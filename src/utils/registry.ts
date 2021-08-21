@@ -80,35 +80,33 @@ async function registerCommands(client: Client, ...dirs: string[]) {
 
 async function registerSlashCommands(client: Client, ...dirs: string[]) {
     const slashCommands = [];
+    let slashCmdModule: SlashCommand;
     const rest = new REST({ version: "9" }).setToken(`${process.env.DISCORD_TOKEN}`);
+
     for (const dir of dirs) {
         const files = await fs.promises.readdir(path.join(__dirname, dir));
         for (let file of files) {
-            console.log(file);
-            const slashCmdModule: SlashCommand = (await import(path.join(__dirname, dir, file)))
-                .default;
+            slashCmdModule = (await import(path.join(__dirname, dir, file))).default;
             slashCommands.push(slashCmdModule.data.toJSON());
-            try {
-                console.log("Started refreshing application (/) commands.");
-                if (slashCmdModule!.testOnly) {
-                    await rest.put(
-                        Routes.applicationGuildCommands(
-                            `${process.env.DISCORD_CLIENT_ID}`,
-                            testServer[0]
-                        ),
-                        { body: slashCommands }
-                    );
-                } else {
-                    await rest.put(Routes.applicationCommands(`${process.env.DISCORD_CLIENT_ID}`), {
-                        body: slashCommands
-                    });
-                }
-                client.slashCommands.set(slashCmdModule.data.name, slashCmdModule);
-                console.log("Successfully reloaded application (/) commands.");
-            } catch (e) {
-                console.log(e);
-            }
         }
+    }
+
+    try {
+        console.log("Started refreshing application (/) commands.");
+        if (slashCmdModule!.testOnly) {
+            await rest.put(
+                Routes.applicationGuildCommands(`${process.env.DISCORD_CLIENT_ID}`, testServer[0]),
+                { body: slashCommands }
+            );
+        } else {
+            await rest.put(Routes.applicationCommands(`${process.env.DISCORD_CLIENT_ID}`), {
+                body: slashCommands
+            });
+        }
+        client.slashCommands.set(slashCmdModule!.data.name, slashCmdModule!);
+        console.log("Successfully reloaded application (/) commands.");
+    } catch (e) {
+        console.error(`Error loading slash commands: ${e}`);
     }
 }
 
